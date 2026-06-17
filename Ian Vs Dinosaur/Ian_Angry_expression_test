@@ -1,0 +1,49 @@
+import bpy
+
+ian_model = "ian_rig"
+
+def set_bone_rotation(rig, bone_name, rotation):
+    bone = rig.pose.bones.get(bone_name)
+
+    if bone:
+        bone.rotation_mode = "XYZ"
+        bone.rotation_euler = rotation
+        bone.keyframe_insert(data_path="rotation_euler")
+        print(f"Moved: {bone_name}")
+    else:
+        print(f"Bone not found: {bone_name}")
+
+
+def apply_group_rotation(ian_rig, bone_names, rotation):
+    for bone_name in bone_names:
+        set_bone_rotation(ian_rig, bone_name, rotation)
+
+
+def ian_angry():
+    ian_rig = bpy.data.objects.get(ian_model)
+
+    if not ian_rig:
+        print("Ian rig not found")
+        return
+
+    left_brow = [
+        "upper_brow1.l", "upper_brow2.l", "upper_brow3.l",
+        "lower_brow1.l", "lower_brow2.l", "lower_brow3.l"
+    ]
+
+    right_brow = [
+        "upper_brow1.r", "upper_brow2.r", "upper_brow3.r",
+        "lower_brow1.r", "lower_brow2.r", "lower_brow3.r"
+    ]
+    
+    
+
+#use for loop to apply rotation to each bone in list
+
+    apply_group_rotation(ian_rig, left_brow, (0, 0, 0.10))
+    apply_group_rotation(ian_rig, right_brow, (0, 0, -0.10))
+
+    print("Ian Angry expression applied")
+
+
+ian_angry()
